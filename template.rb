@@ -50,7 +50,6 @@ CODE
 
 after_bundle do
   run "bundle binstubs puma rspec-core --force"
-  run "bundle exec spring binstub --all"
 
   # Database
   file 'config/database.example.yml', <<-CODE
@@ -88,6 +87,16 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     hd: ENV['GOOGLE_OAUTH_ALLOWED_DOMAINS'] ? ENV['GOOGLE_OAUTH_ALLOWED_DOMAINS'].split(' ') : nil,
     prompt: 'select_account',
   }.compact
+end
+CODE
+
+  initializer "sidekiq", <<-CODE
+Sidekiq.configure_server do |config|
+  config.redis = { url: ENV['REDIS_URL'], namespace: "sidekiq_#{project_name}" }
+end
+
+Sidekiq.configure_client do |config|
+  config.redis = { url: ENV['REDIS_URL'], namespace: "sidekiq_#{project_name}" }
 end
 CODE
 
@@ -135,17 +144,16 @@ CODE
 
   # Environment
   environment %Q(config.paths.add("lib", load_path: true, eager_load: true))
+  environment %Q(config.active_job.queue_adapter = :sidekiq)
 
   # Procfile
   file "Procfile", <<-CODE
 web: bundle exec puma -C config/puma.rb
+worker: bundle exec sidekiq -q default -q mailers
 CODE
 
   # Git
   git :init
   git add: "."
   git commit: %Q(-m "Initial commit")
-
-  # Cleanup
-  run "bundle exec spring stop"
 end
