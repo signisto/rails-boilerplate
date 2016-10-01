@@ -103,6 +103,11 @@ CODE
   file ".env", <<-CODE
 RAILS_ENV=development
 RACK_ENV=development
+
+# OmniAuth
+#GOOGLE_OAUTH_CLIENT_ID=""
+#GOOGLE_OAUTH_SECRET=""
+#GOOGLE_OAUTH_ALLOWED_DOMAINS="example.com yourdomain.com"
 CODE
 
   # Scaffolds
