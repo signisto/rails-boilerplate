@@ -157,6 +157,12 @@ web: bundle exec puma -C config/puma.rb
 worker: bundle exec sidekiq -q default -q mailers
 CODE
 
+  # Scripts
+  file "script/server", <<-CODE
+#!/bin/sh
+foreman start
+CODE
+
   # Git
   git :init
   git add: "."
