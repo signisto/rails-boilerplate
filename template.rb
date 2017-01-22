@@ -139,13 +139,10 @@ body {
 CODE
 file "app/assets/stylesheets/_variables.scss", <<-CODE
 // Base
-$font-family-sans-serif: "Roboto Condensed", sans-serif;
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 $font-family-serif: $font-family-sans-serif;
 $font-family-monospace: 'Inconsolata', 'Courier New';
 $font-family-base: $font-family-sans-serif;
-
-// Navigation
-$navbar-height: 100px;
 CODE
 
 # Routes
