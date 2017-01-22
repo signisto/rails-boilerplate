@@ -1,9 +1,9 @@
 project_name = File.basename(__dir__)
 
-run "rm Gemfile"
-run "rm README.md"
-run "rm public/favicon.ico"
-run "rm -rf test"
+run "rm Gemfile" if File.exist?("test")
+run "rm README.md" if File.exist?("test")
+run "rm public/favicon.ico" if File.exist?("test")
+run "rm -rf test" if Dir.exist?("test")
 
 file "Gemfile", <<-CODE
 source "https://rubygems.org"
@@ -48,11 +48,10 @@ group :development, :test do
 end
 CODE
 
-after_bundle do
-  run "bundle binstubs puma rspec-core --force"
+run "bundle binstubs puma rspec-core --force"
 
-  # Database
-  file 'config/database.example.yml', <<-CODE
+# Database
+file 'config/database.example.yml', <<-CODE
 default: &default
   adapter: postgresql
   encoding: unicode
@@ -81,7 +80,7 @@ production:
   <<: &default
 CODE
 
-  initializer "omniauth", <<-CODE
+initializer "omniauth", <<-CODE
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :google_oauth2, ENV['GOOGLE_OAUTH_CLIENT_ID'], ENV['GOOGLE_OAUTH_SECRET'], {
     hd: ENV['GOOGLE_OAUTH_ALLOWED_DOMAINS'] ? ENV['GOOGLE_OAUTH_ALLOWED_DOMAINS'].split(' ') : nil,
@@ -90,7 +89,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 end
 CODE
 
-  initializer "sidekiq", <<-CODE
+initializer "sidekiq", <<-CODE
 Sidekiq.configure_server do |config|
   config.redis = { url: ENV['REDIS_URL'], namespace: "sidekiq_#{project_name}" }
 end
@@ -100,7 +99,7 @@ Sidekiq.configure_client do |config|
 end
 CODE
 
-  file ".env", <<-CODE
+file ".env", <<-CODE
 RAILS_ENV=development
 RACK_ENV=development
 
@@ -110,17 +109,17 @@ RACK_ENV=development
 #GOOGLE_OAUTH_ALLOWED_DOMAINS="example.com yourdomain.com"
 CODE
 
-  # Scaffolds
-  generate 'rspec:install'
-  rails_command "db:drop"
-  rails_command "db:create"
-  generate :controller, "welcome"
-  generate :scaffold, "user", "email:string", "name:string"
-  generate :scaffold, "session", "user:references", "token:string"
-  rails_command "db:migrate"
+# Scaffolds
+generate 'rspec:install'
+rails_command "db:drop"
+rails_command "db:create"
+generate :controller, "welcome"
+generate :scaffold, "user", "email:string", "name:string"
+generate :scaffold, "session", "user:references", "token:string"
+rails_command "db:migrate"
 
-  # Assets
-  file "app/assets/stylesheets/app.scss", <<-CODE
+# Assets
+file "app/assets/stylesheets/app.scss", <<-CODE
 @import "variables";
 @import "bootstrap-sprockets";
 @import "bootstrap";
@@ -143,27 +142,29 @@ $font-family-base: $font-family-sans-serif;
 $navbar-height: 100px;
 CODE
 
-  # Routes
-  route %Q(root to: "welcome#index")
-  route %Q(resources :sessions, only: [:new, :create])
+# Routes
+route %Q(root to: "welcome#index")
+route %Q(resources :sessions, only: [:new, :create])
 
-  # Environment
-  environment %Q(config.paths.add("lib", load_path: true, eager_load: true))
-  environment %Q(config.active_job.queue_adapter = :sidekiq)
+# Environment
+environment %Q(config.paths.add("lib", load_path: true, eager_load: true))
+environment %Q(config.active_job.queue_adapter = :sidekiq)
 
-  # Procfile
-  file "Procfile", <<-CODE
+# Procfile
+file "Procfile", <<-CODE
 web: bundle exec puma -C config/puma.rb
 worker: bundle exec sidekiq -q default -q mailers
 CODE
 
-  # Scripts
-  file "script/server", <<-CODE
+# Scripts
+file "script/server", <<-CODE
 #!/bin/sh
 foreman start
+
 CODE
 
-  # Git
+# Create initial commit on first run
+after_bundle do
   git :init
   git add: "."
   git commit: %Q(-m "Initial commit")
