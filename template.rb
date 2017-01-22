@@ -162,6 +162,7 @@ file "script/server", <<-CODE
 foreman start
 
 CODE
+FileUtils.chmod("u=rwx,go=rx", "script/server")
 
 # Create initial commit on first run
 after_bundle do
