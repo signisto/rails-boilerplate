@@ -10,9 +10,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 5.1.0'
 
-#gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin'
-#gem 'inherited_resources', git: 'https://github.com/activeadmin/inherited_resources'
-
 gem 'bcrypt'
 gem 'bootstrap-sass'
 gem 'jquery-rails'
