@@ -1,8 +1,8 @@
 project_name = File.basename(__dir__)
 
-run "rm Gemfile" if File.exist?("test")
-run "rm README.md" if File.exist?("test")
-run "rm public/favicon.ico" if File.exist?("test")
+run "rm Gemfile" if File.exist?("Gemfile")
+run "rm README.md" if File.exist?("README.md")
+run "rm public/favicon.ico" if File.exist?("public/favicon.ico")
 run "rm -rf test" if Dir.exist?("test")
 
 file "Gemfile", <<-CODE
