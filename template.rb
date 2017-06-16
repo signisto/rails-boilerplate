@@ -6,44 +6,44 @@ run "rm public/favicon.ico" if File.exist?("public/favicon.ico")
 run "rm -rf test" if Dir.exist?("test")
 
 file "Gemfile", <<-CODE
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem "rails", "~> 5.1.0"
+gem 'rails', '~> 5.1.0'
 
-#gem "activeadmin", git: "https://github.com/activeadmin/activeadmin"
-#gem "inherited_resources", git: "https://github.com/activeadmin/inherited_resources"
+#gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin'
+#gem 'inherited_resources', git: 'https://github.com/activeadmin/inherited_resources'
 
-gem "bcrypt"
-gem "bootstrap-sass"
-gem "jquery-rails"
-gem "dotenv-rails"
-gem "envoku"
-gem "font-awesome-sass"
-gem "haml"
-gem "omniauth"
-gem "omniauth-google-oauth2"
-gem "pg"
-gem "puma"
-gem "redis"
-gem "sass-rails"
-gem "sidekiq"
-gem "turbolinks"
-gem "uglifier"
+gem 'bcrypt'
+gem 'bootstrap-sass'
+gem 'jquery-rails'
+gem 'dotenv-rails'
+gem 'envoku'
+gem 'font-awesome-sass'
+gem 'haml'
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'pg'
+gem 'puma'
+gem 'redis'
+gem 'sass-rails'
+gem 'sidekiq'
+gem 'turbolinks'
+gem 'uglifier'
 
 group :development do
-  gem "web-console"
-  gem "listen"
-  gem "spring"
-  gem "spring-watcher-listen"
+  gem 'web-console'
+  gem 'listen'
+  gem 'spring'
+  gem 'spring-watcher-listen'
 end
 
 group :test do
-  gem "rspec-rails"
-  gem "factory_girl_rails"
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
 end
 
 group :development, :test do
-  gem "byebug", platform: :mri
+  gem 'byebug', platform: :mri
 end
 CODE
 
