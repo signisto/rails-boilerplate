@@ -12,11 +12,11 @@ gem 'rails', '~> 5.1.0'
 
 gem 'bcrypt'
 gem 'bootstrap-sass'
-gem 'jquery-rails'
 gem 'dotenv-rails'
 gem 'envoku'
 gem 'font-awesome-sass'
 gem 'haml'
+gem 'jquery-rails'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'pg'
@@ -28,15 +28,15 @@ gem 'turbolinks'
 gem 'uglifier'
 
 group :development do
-  gem 'web-console'
   gem 'listen'
   gem 'spring'
   gem 'spring-watcher-listen'
+  gem 'web-console'
 end
 
 group :test do
-  gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'rspec-rails'
 end
 
 group :development, :test do
