@@ -45,7 +45,7 @@ CODE
 run "bundle binstubs puma rspec-core --force"
 
 # Database
-file 'config/database.example.yml', <<-CODE
+file 'config/database.yml', <<-CODE
 default: &default
   adapter: postgresql
   encoding: unicode
@@ -53,25 +53,19 @@ default: &default
   timeout: 5000
   host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
   port: <%= ENV['DATABASE_PORT'] || '5432' %>
-  database: #{project_name}_<%= ENV['RAILS_ENV'] %>
+  database: #{project_name.underscore}_<%= ENV['RAILS_ENV'] %>
   username: <%= ENV['DATABASE_USERNAME'] || '' %>
   password: <%= ENV['DATABASE_PASSWORD'] || '' %>
   min_messages: WARNING
 
-spec:
-  <<: &default
-
 development:
-  <<: &default
+  <<: *default
 
 test:
-  <<: &default
-
-staging:
-  <<: &default
+  <<: *default
 
 production:
-  <<: &default
+  <<: *default
 CODE
 
 initializer "omniauth.rb", <<-CODE
