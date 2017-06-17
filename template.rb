@@ -114,7 +114,9 @@ file "app/views/welcome/index.haml", <<-CODE
 CODE
 
 # Assets
-file "app/assets/stylesheets/app.scss", <<-CODE
+run 'rm app/assets/stylesheets/application.css' if File.exist?('app/assets/stylesheets/application.css')
+run 'rm app/assets/stylesheets/application.scss' if File.exist?('app/assets/stylesheets/application.scss')
+file "app/assets/stylesheets/application.scss", <<-CODE
 @import "variables";
 @import "bootstrap-sprockets";
 @import "bootstrap";
@@ -132,6 +134,11 @@ $font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
 $font-family-serif: $font-family-sans-serif;
 $font-family-monospace: 'Inconsolata', 'Courier New';
 $font-family-base: $font-family-sans-serif;
+CODE
+run 'rm app/assets/javascripts/application.js' if File.exist?('app/assets/javascripts/application.js')
+file "app/assets/javascripts/application.js", <<-CODE
+//= require rails-ujs
+//= require_tree .
 CODE
 
 # Routes
