@@ -10,6 +10,16 @@ rails new [project] -m https://raw.githubusercontent.com/signisto/rails-boilerpl
 ```
 
 
+## Development
+
+The quickest way to test the template is to use it to build a new test application:
+
+``` shell
+rm -rf test-app
+rails new test-app -m ./template.rb
+```
+
+
 ## Google Auth Setup
 
 By default the app comes pre-setup to work with Google account login.
