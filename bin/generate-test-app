@@ -1,0 +1,4 @@
+#!/bin/sh
+
+rm -rf test-app
+rails new test-app -m ./template.rb
