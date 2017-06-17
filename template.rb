@@ -76,7 +76,7 @@ production:
   <<: &default
 CODE
 
-initializer "omniauth", <<-CODE
+initializer "omniauth.rb", <<-CODE
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :google_oauth2, ENV['GOOGLE_OAUTH_CLIENT_ID'], ENV['GOOGLE_OAUTH_SECRET'], {
     hd: ENV['GOOGLE_OAUTH_ALLOWED_DOMAINS'] ? ENV['GOOGLE_OAUTH_ALLOWED_DOMAINS'].split(' ') : nil,
@@ -85,7 +85,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 end
 CODE
 
-initializer "sidekiq", <<-CODE
+initializer "sidekiq.rb", <<-CODE
 Sidekiq.configure_server do |config|
   config.redis = { url: ENV['REDIS_URL'], namespace: "sidekiq_#{project_name}" }
 end
