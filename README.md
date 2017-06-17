@@ -19,6 +19,11 @@ bin/generate-test-app
 ```
 
 
+## Devise
+
+Devise is included by default, very little configuration is required to get it running.
+
+
 ## Google Auth Setup
 
 By default the app comes pre-setup to work with Google account login.

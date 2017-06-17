@@ -14,6 +14,7 @@ gem 'rails', '~> 5.1.0'
 gem 'bcrypt'
 gem 'bootstrap-sass'
 gem 'dotenv-rails'
+gem 'devise'
 gem 'envoku'
 gem 'font-awesome-sass'
 gem 'haml'
@@ -103,8 +104,6 @@ generate 'rspec:install'
 rails_command "db:drop"
 rails_command "db:create"
 generate :controller, "welcome"
-generate :scaffold, "user", "email:string", "name:string"
-generate :scaffold, "session", "user:references", "token:string"
 rails_command "db:migrate"
 
 # Boilerplate welcome
@@ -136,8 +135,7 @@ $font-family-base: $font-family-sans-serif;
 CODE
 
 # Routes
-route %Q(resources :sessions, only: [:new, :create])
-route %Q(get '/auth/:provider/callback', to: 'sessions#create')
+route %Q(get '/auth/:provider/callback', to: 'omniauth_callbacks#oauth')
 route %Q(root to: "welcome#index")
 
 # Environment
@@ -163,4 +161,12 @@ after_bundle do
   git :init
   git add: "."
   git commit: %Q(-m "Initial commit")
+
+  run 'spring stop'
+  run 'bundle exec rails generate devise:install'
+  run 'bundle exec rails generate devise User'
+  git add: '.'
+  git commit: %Q(-m "Configure devise")
+
+  run 'bundle exec rake db:migrate'
 end
