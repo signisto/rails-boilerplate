@@ -172,8 +172,7 @@ after_bundle do
   run 'spring stop'
   run 'bundle exec rails generate devise:install'
   run 'bundle exec rails generate devise User'
+  run 'bundle exec rake db:migrate'
   git add: '.'
   git commit: %Q(-m "Configure devise")
-
-  run 'bundle exec rake db:migrate'
 end
