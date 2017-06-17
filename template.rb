@@ -12,6 +12,7 @@ source 'https://rubygems.org'
 gem 'rails', '~> 5.1.0'
 
 gem 'bcrypt'
+gem 'bootsnap'
 gem 'bootstrap-sass'
 gem 'dotenv-rails'
 gem 'devise'
@@ -45,6 +46,24 @@ end
 CODE
 
 run "bundle binstubs puma rspec-core --force"
+
+# Boot config
+run "rm -f config/boot.rb" if File.exist?('config/boot.rb')
+file 'config/boot.rb', <<-CODE
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
+
+require 'bundler/setup'
+require 'bootsnap'
+Bootsnap.setup(
+  cache_dir: 'tmp/cache',
+  load_path_cache: true,
+  autoload_paths_cache: true,
+  disable_trace: true,
+  compile_cache_iseq: true,
+  compile_cache_yaml: true,
+  development_mode: ENV['RAILS_ENV'] == 'development'
+)
+CODE
 
 # Database
 file 'config/database.yml', <<-CODE
